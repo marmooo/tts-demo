@@ -1,9 +1,9 @@
-var CACHE_NAME = "2022-09-27 10:50";
+var CACHE_NAME = "2022-10-08 11:03";
 var urlsToCache = [
   "/tts-demo/",
   "/tts-demo/index.js",
   "/tts-demo/favicon/favicon.svg",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css",
 ];
 
 self.addEventListener("install", function (event) {

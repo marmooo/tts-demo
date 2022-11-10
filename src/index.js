@@ -41,6 +41,7 @@ function loadVoices() {
   allVoicesObtained.then((voices) => {
     allVoices = voices;
     addLangRadioBox();
+    addVoiceSelect();
   });
 }
 
@@ -56,7 +57,11 @@ function speak(text) {
   const msg = new SpeechSynthesisUtterance(text);
   const lang = document.getElementById("langRadio").lang.value;
   const voices = allVoices.filter((voice) => voice.lang == lang);
-  const voice = voices[Math.floor(Math.random() * voices.length)];
+  const voiceOptions = document.getElementById("selectVoice").options;
+  const voiceName = voiceOptions[voiceOptions.selectedIndex].value;
+  const voice = (voiceName == "random")
+    ? voices[Math.floor(Math.random() * voices.length)]
+    : voices.find((voice) => voice.name == voiceName);
   showVoiceInfo(voice);
   msg.voice = voice;
   msg.lang = document.getElementById("langRadio").lang.value;
@@ -65,6 +70,30 @@ function speak(text) {
   msg.volume = document.getElementById("volume").value;
   speechSynthesis.speak(msg);
   return msg;
+}
+
+function initVoiceSelect() {
+  const select = document.getElementById("selectVoice");
+  select.replaceChildren();
+  const option = document.createElement("option");
+  option.textContent = "random";
+  select.appendChild(option);
+}
+
+function addVoiceSelect() {
+  initVoiceSelect();
+  const select = document.getElementById("selectVoice");
+  allVoices.filter((voice) => voice.lang == "en-US").forEach((voice) => {
+    const option = document.createElement("option");
+    option.textContent = voice.name;
+    select.appendChild(option);
+  });
+  select.onchange = () => {
+    const lang = document.getElementById("langRadio").lang.value;
+    allVoices.filter((voice) => voice.lang == lang).forEach((voice) => {
+      showVoiceInfo(voice);
+    });
+  };
 }
 
 function addLangRadioBox() {

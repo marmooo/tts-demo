@@ -46,22 +46,35 @@ function loadVoices() {
 }
 
 function showVoiceInfo(voice) {
+  document.getElementById("voiceLang").textContent = voice.lang;
   document.getElementById("voiceDefault").textContent = voice.default;
   document.getElementById("voiceLocalService").textContent = voice.localService;
   document.getElementById("voiceName").textContent = voice.name;
   document.getElementById("voiceURI").textContent = voice.voiceURI;
 }
 
+function selectVoice(allVoices, lang) {
+  const voiceOptions = document.getElementById("selectVoice").options;
+  const voiceName = voiceOptions[voiceOptions.selectedIndex].value;
+  switch (voiceOptions.selectedIndex) {
+    case 0:
+      return allVoices[Math.floor(Math.random() * allVoices.length)];
+    case 1: {
+      const langVoices = allVoices.filter((voice) => voice.lang == lang);
+      return langVoices[Math.floor(Math.random() * langVoices.length)];
+    }
+    default: {
+      const langVoices = allVoices.filter((voice) => voice.lang == lang);
+      return langVoices.find((voice) => voice.name == voiceName);
+    }
+  }
+}
+
 function speak(text) {
   speechSynthesis.cancel();
   const msg = new SpeechSynthesisUtterance(text);
   const lang = document.getElementById("langRadio").lang.value;
-  const voices = allVoices.filter((voice) => voice.lang == lang);
-  const voiceOptions = document.getElementById("selectVoice").options;
-  const voiceName = voiceOptions[voiceOptions.selectedIndex].value;
-  const voice = (voiceName == "random")
-    ? voices[Math.floor(Math.random() * voices.length)]
-    : voices.find((voice) => voice.name == voiceName);
+  const voice = selectVoice(allVoices, lang);
   showVoiceInfo(voice);
   msg.voice = voice;
   msg.lang = document.getElementById("langRadio").lang.value;
@@ -75,9 +88,12 @@ function speak(text) {
 function initVoiceSelect() {
   const select = document.getElementById("selectVoice");
   select.replaceChildren();
-  const option = document.createElement("option");
-  option.textContent = "random";
-  select.appendChild(option);
+  const option1 = document.createElement("option");
+  option1.textContent = "random (all languages)";
+  select.appendChild(option1);
+  const option2 = document.createElement("option");
+  option2.textContent = "random (selected language)";
+  select.appendChild(option2);
 }
 
 function addVoiceSelect() {

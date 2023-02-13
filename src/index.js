@@ -114,11 +114,9 @@ function addVoiceSelect() {
 
 function addLangRadioBox() {
   const radio = document.getElementById("langRadio");
-  allVoices.sort((a, b) => {
-    if (a.lang < b.lang) return -1;
-    if (a.lang > b.lang) return 1;
-    return 0;
-  }).forEach((voice, i) => {
+  const langs = allVoices.map((voice) => voice.lang);
+  const uniqueLangs = [...new Set(langs)];
+  uniqueLangs.sort().forEach((lang, i) => {
     const div = document.createElement("div");
     div.className = "form-check form-check-inline";
     const input = document.createElement("input");
@@ -126,15 +124,15 @@ function addLangRadioBox() {
     input.name = "lang";
     input.type = "radio";
     input.id = "radio" + i;
-    input.value = voice.lang;
+    input.value = lang;
     const label = document.createElement("label");
     label.className = "from-check-label";
     label.for = "radio" + i;
-    label.textContent = voice.lang;
+    label.textContent = lang;
     div.appendChild(input);
     div.appendChild(label);
     radio.appendChild(div);
-    if (voice.lang == "en-US" || voice.lang == "en_US") {
+    if (lang == "en-US" || lang == "en_US") {
       input.checked = true;
     }
   });

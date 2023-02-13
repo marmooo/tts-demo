@@ -138,6 +138,16 @@ function addLangRadioBox() {
       input.checked = true;
     }
   });
+  radio.onchange = () => {
+    const lang = radio.lang.value;
+    initVoiceSelect();
+    const select = document.getElementById("selectVoice");
+    allVoices.filter((voice) => voice.lang == lang).forEach((voice) => {
+      const option = document.createElement("option");
+      option.textContent = voice.name;
+      select.appendChild(option);
+    });
+  };
 }
 
 function resetPitch() {

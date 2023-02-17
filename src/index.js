@@ -73,11 +73,11 @@ function selectVoice(allVoices, lang) {
 function speak(text) {
   speechSynthesis.cancel();
   const msg = new SpeechSynthesisUtterance(text);
-  const lang = document.getElementById("langRadio").lang.value;
+  const lang = document.getElementById("langRadio").elements.lang.value;
   const voice = selectVoice(allVoices, lang);
   showVoiceInfo(voice);
   msg.voice = voice;
-  msg.lang = document.getElementById("langRadio").lang.value;
+  msg.lang = document.getElementById("langRadio").elements.lang.value;
   msg.pitch = document.getElementById("pitch").value;
   msg.rate = document.getElementById("rate").value;
   msg.volume = document.getElementById("volume").value;
@@ -105,7 +105,7 @@ function addVoiceSelect() {
     select.appendChild(option);
   });
   select.onchange = () => {
-    const lang = document.getElementById("langRadio").lang.value;
+    const lang = document.getElementById("langRadio").elements.lang.value;
     allVoices.filter((voice) => voice.lang == lang).forEach((voice) => {
       showVoiceInfo(voice);
     });
@@ -113,7 +113,7 @@ function addVoiceSelect() {
 }
 
 function addLangRadioBox() {
-  const radio = document.getElementById("langRadio");
+  const langRadio = document.getElementById("langRadio");
   const langs = allVoices.map((voice) => voice.lang);
   const uniqueLangs = [...new Set(langs)];
   uniqueLangs.sort().forEach((lang, i) => {
@@ -131,13 +131,13 @@ function addLangRadioBox() {
     label.textContent = lang;
     div.appendChild(input);
     div.appendChild(label);
-    radio.appendChild(div);
+    langRadio.appendChild(div);
     if (lang == "en-US" || lang == "en_US") {
       input.checked = true;
     }
   });
-  radio.onchange = () => {
-    const lang = radio.lang.value;
+  langRadio.onchange = () => {
+    const lang = langRadio.elements.lang.value;
     initVoiceSelect();
     const select = document.getElementById("selectVoice");
     allVoices.filter((voice) => voice.lang == lang).forEach((voice) => {

@@ -113,7 +113,8 @@ function addVoiceSelect() {
 }
 
 function addLangRadioBox() {
-  const langRadio = document.getElementById("langRadio");
+  const radio = document.getElementById("langRadio");
+  radio.replaceChildren();
   const langs = allVoices.map((voice) => voice.lang);
   const uniqueLangs = [...new Set(langs)];
   uniqueLangs.sort().forEach((lang, i) => {
@@ -131,13 +132,13 @@ function addLangRadioBox() {
     label.textContent = lang;
     div.appendChild(input);
     div.appendChild(label);
-    langRadio.appendChild(div);
+    radio.appendChild(div);
     if (lang == "en-US" || lang == "en_US") {
       input.checked = true;
     }
   });
-  langRadio.onchange = () => {
-    const lang = langRadio.elements.lang.value;
+  radio.onchange = () => {
+    const lang = radio.elements.lang.value;
     initVoiceSelect();
     const select = document.getElementById("selectVoice");
     allVoices.filter((voice) => voice.lang == lang).forEach((voice) => {

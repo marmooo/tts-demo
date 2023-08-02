@@ -20,13 +20,13 @@ function toggleDarkMode() {
 
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
-  const allVoicesObtained = new Promise(function (resolve) {
+  const allVoicesObtained = new Promise((resolve) => {
     let voices = speechSynthesis.getVoices();
     if (voices.length !== 0) {
       resolve(voices);
     } else {
       let supported = false;
-      speechSynthesis.addEventListener("voiceschanged", function () {
+      speechSynthesis.addEventListener("voiceschanged", () => {
         supported = true;
         voices = speechSynthesis.getVoices();
         resolve(voices);
@@ -164,9 +164,9 @@ function search() {
   speak(text);
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", (event) => {
   if (event.key == "Enter") search();
-}, false);
+});
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("search").onclick = search;
 document.getElementById("resetPitch").onclick = resetPitch;
